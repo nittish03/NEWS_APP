@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -24,12 +24,17 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+useEffect(()=>{
+  if(loggedIn){
+    navigate("/home");
+  }
+ },[loggedIn]);
 
   //register ctrl
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const loading = toast.loading("Logging in...")
+      const loading = toast.loading("Logging in")
 
       await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login`, { email, password });
       toast.dismiss(loading);
@@ -38,6 +43,8 @@ const Login = () => {
       localStorage.setItem("authToken", true);
       navigate("/home");
     } catch (err) {
+      toast.dismiss(loading);
+      toast.error("Failed to log in",err);
       console.log(error);
       if (err.response.data.error) {
         setError(err.response.data.error);

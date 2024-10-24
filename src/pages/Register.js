@@ -26,19 +26,21 @@ const Register = () => {
 
   //register ctrl
   const handleSubmit = async (e) => {
-    const loading = toast.loading("Registerin...")
+    const loading = toast.loading("Registering")
 
     e.preventDefault();
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/register`, { username, email, password });
       toast.dismiss(loading);
 
-      toast.success("User Register Successfully");
+      toast.success("User Registered Successfully");
       navigate("/login");
     } catch (err) {
+      toast.dismiss(loading);
+      toast.error("Error registering",err)
       console.log(error);
       if (err.response.data.error) {
-        setError(err.response.data.error);
+        setError(err.response.data.error);  
       } else if (err.message) {
         setError(err.message);
       }
