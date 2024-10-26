@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import {
   Box,
-  Typography,
   useTheme,
   useMediaQuery,
   TextField,
@@ -19,7 +18,7 @@ const Login = () => {
   //media
   const isNotMobile = useMediaQuery("(min-width: 1000px)");
   const loggedIn = JSON.parse(localStorage.getItem("authToken"));
-
+  const username = localStorage.getItem("username");
   // states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +38,10 @@ useEffect(()=>{
       await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/login`, { email, password });
       toast.dismiss(loading);
 
-      toast.success("Logged In Successfully");
+      toast.success(`Logged in as ${username}`);
       localStorage.setItem("authToken", true);
+      localStorage.setItem("email", email);
+
       navigate("/home");
     } catch (err) {
       toast.dismiss(loading);

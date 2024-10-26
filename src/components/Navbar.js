@@ -1,14 +1,30 @@
-import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import React,{useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import sicon from "./sicon.png"
 const Navbar = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
+  const [username,setUsername]=useState("")
   const loggedIn = JSON.parse(localStorage.getItem("authToken"));
+  const email = (localStorage.getItem("email"));
+  const params = {
+    email:email
+  }
+  const getUsers= async()=>{
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/`,{params:params});
+    setUsername(response.data.username);
+    localStorage.setItem("username",username);
+  }
+
+
+
+
+  useEffect(()=>{
+getUsers()
+  },[email,loggedIn])
+
 
   //handle logout
   const handleLogout = async () => {
@@ -66,7 +82,7 @@ const Navbar = () => {
         <div>
 {loggedIn?<>        
         <NavLink style={{border:"solid white 1px",color:"white"}} onClick={handleLogout}  to="/" className="btn btn-outline-ligth ms-2 hover0 login-btn">
-          Log Out
+          Log Out, {username.split(" ")[0]}
         </NavLink></>
         :
         <>
