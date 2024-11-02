@@ -6,24 +6,26 @@ import toast from "react-hot-toast";
 import sicon from "./sicon.png"
 const Navbar = () => {
   const navigate = useNavigate();
-  const [username,setUsername]=useState("")
   const loggedIn = JSON.parse(localStorage.getItem("authToken"));
+
+
+
+  const [username,setUsername]=useState("")
   const email = (localStorage.getItem("email"));
   const params = {
     email:email
-  }
+  };
   const getUsers= async()=>{
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/`,{params:params});
     setUsername(response.data.username);
     localStorage.setItem("username",username);
-  }
-
-
-
+  };
 
   useEffect(()=>{
 getUsers()
   },[email,loggedIn])
+
+
 
 
   //handle logout
