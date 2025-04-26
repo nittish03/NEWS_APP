@@ -15,13 +15,13 @@ const Navbar = () => {
   const params = {
     email:email
   };
-  const getUsers= async()=>{
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/`,{params:params});
-    setUsername(response.data.username);
-    localStorage.setItem("username",username);
-  };
-
+  
   useEffect(()=>{
+    const getUsers= async()=>{
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/`,{params:params});
+      setUsername(response.data.username);
+      localStorage.setItem("username",username);
+    };
 getUsers()
   },[email,loggedIn])
 

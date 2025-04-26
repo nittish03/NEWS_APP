@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 function News(props) {
   const [articles, setArticles] = useState([]);
-  const loggedIn = JSON.parse(localStorage.getItem("authToken"));
+  const loggedIn = true;
 
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
